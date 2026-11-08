@@ -18,20 +18,24 @@ export function createSubmissionController({ store, api, journal, now = Date.now
         store.patch({ wishDraft: '' }); publish({ ...saved, content: undefined, canRetry: false }); return;
       }
       const recovered = saved.status === 'submitting' || saved.status === 'success'
-        ? { ...unknownResult('interrupted'), attemptId: saved.attemptId, content: saved.content || '' }
-        : saved;
+        ? { ...unknownResult('interrupted'), attemptId: saved.attemptId, content: saved.content || '',
+            requiresConfirmation: false, canRetry: true,
+            message: '上次投递没有完成，可能没有保存。可以继续许愿。' }
+        : saved.status === 'unknown'
+          ? { ...saved, requiresConfirmation: false, canRetry: true,
+              message: '上次投递结果无法确认，可能没有保存。可以继续许愿。' }
+          : saved;
       if (recovered.content) store.patch({ wishDraft: recovered.content });
       publish(recovered);
       if (saved.status === 'submitting') journal.write(recovered);
     } catch {
-      publish({ ...unknownResult('journal-unreadable'),
-        message: '无法读取之前的投递状态。为避免重复保存，请先联系站点所有者核实，暂不重发。' });
+      publish({ ...unknownResult('journal-unreadable'), requiresConfirmation: false, canRetry: true,
+        message: '无法读取上次投递状态，可以继续许愿；如果担心重复，可以先核实。' });
     }
   }
   recover();
   async function submit() {
-    if (inFlight || ['submitting', 'unknown', 'success'].includes(current().status)
-        || current().canRetry === false || current().requiresConfirmation || (current().retryAt || 0) > now()) return current();
+    if (inFlight || current().status === 'submitting' || (current().retryAt || 0) > now()) return current();
     const content = store.get().wishDraft;
     if (typeof content !== 'string' || !content.trim() || content.length > 2000) {
       const result = { status: 'error', reason: 'validation', canRetry: true, requiresConfirmation: false,
@@ -42,11 +46,7 @@ export function createSubmissionController({ store, api, journal, now = Date.now
     inFlight = true; // Acquire before any await, and keep across scene changes.
     try {
       return await withLock(async () => {
-        let previous;
-        try { previous = journal.read(); } catch { const result = storageError(); publish(result); return result; }
-        if (previous && !(previous.status === 'success' && previous.ownerId && previous.ownerId !== ownerId)) {
-          inFlight = false; recover(); return current();
-        }
+        // A previous journal entry (including an uncertain one) must never block a new wish.
         const attemptId = createId();
         const pending = { status: 'submitting', attemptId, ownerId, content, canRetry: false, requiresConfirmation: false };
         try { journal.write(pending); } catch { const result = storageError(); publish(result); return result; }
@@ -60,8 +60,9 @@ export function createSubmissionController({ store, api, journal, now = Date.now
           try { journal.write({ ...result, content: '' }); } catch { /* Keep the older pending guard if storage fails. */ }
           store.patch({ wishDraft: '' }); publish(result);
         } else if (result.requiresConfirmation || result.status === 'unknown') {
-          result = { ...result, content, canRetry: false, requiresConfirmation: true };
-          try { journal.write(result); } catch { /* Existing pending journal remains a conservative guard. */ }
+          result = { ...result, content, canRetry: true, requiresConfirmation: false,
+            message: '提交结果无法确认，可能没有保存。可以继续许愿。' };
+          try { journal.write(result); } catch { /* The form stays usable even if storage fails. */ }
           publish(result);
         } else {
           try { journal.clear(); } catch { result = { ...result, canRetry: false, requiresConfirmation: true, message: '无法清理之前的投递标记，请联系站点所有者核实后再试。' }; }
@@ -70,7 +71,8 @@ export function createSubmissionController({ store, api, journal, now = Date.now
         return result;
       });
     } catch {
-      const result = { ...unknownResult('concurrent-or-storage'), content };
+      const result = { ...unknownResult('concurrent-or-storage'), content, requiresConfirmation: false, canRetry: true,
+        message: '另一个页面正在提交，或本地状态异常。请稍后再试。' };
       publish(result); return result;
     } finally { inFlight = false; }
   }
@@ -81,7 +83,9 @@ export function createSubmissionController({ store, api, journal, now = Date.now
   }
   function markInterrupted() {
     if (current().status !== 'submitting') return;
-    const interrupted = { ...unknownResult('interrupted'), attemptId: current().attemptId, content: store.get().wishDraft };
+    const interrupted = { ...unknownResult('interrupted'), attemptId: current().attemptId, content: store.get().wishDraft,
+      requiresConfirmation: false, canRetry: true,
+      message: '页面关闭时投递未完成，可能没有保存。可以继续许愿。' };
     try { journal.write(interrupted); } catch { /* The pending entry already prevents reopening from resending. */ }
     publish(interrupted);
   }

@@ -41,13 +41,16 @@ test('429 countdown blocks retry until its deadline without scheduling a POST', 
   now = 5001; await app.controller.submit(); assert.equal(app.calls(), 2);
 });
 
-for (const status of ['unknown', 'error']) test(status + ' requiring review survives reload and does not auto-resubmit', async () => {
+for (const status of ['unknown', 'error']) test(status + ' does not lock and allows another submit', async () => {
   const app = setup(() => ({ status, httpStatus: status === 'error' ? 503 : undefined, canRetry: false, requiresConfirmation: true }));
-  await app.controller.submit(); await app.controller.submit(); assert.equal(app.calls(), 1);
-  const reloaded = setup(() => { throw new Error('Must not send'); }, { storage: app.storage });
-  assert.equal(reloaded.controller.current().requiresConfirmation, true);
+  await app.controller.submit();
+  assert.equal(app.controller.current().requiresConfirmation, false);
+  await app.controller.submit();
+  assert.equal(app.calls(), 2);
+  const reloaded = setup(() => saved, { storage: app.storage });
   assert.equal(reloaded.store.get().wishDraft, '我的心愿');
-  await reloaded.controller.submit(); assert.equal(reloaded.calls(), 0); assert.equal(reloaded.controller.startNew(), false);
+  await reloaded.controller.submit();
+  assert.equal(reloaded.calls(), 1);
 });
 
 test('reloading during in-flight POST recovers unknown and preserves the attempted text', () => {
@@ -79,9 +82,9 @@ test('durable journal write failure prevents any network call', async () => {
   await app.controller.submit(); assert.equal(app.calls(), 0); assert.equal(app.store.get().wishDraft, '我的心愿');
 });
 
-test('corrupted persisted state fails closed', async () => {
+test('corrupted persisted state does not block a new wish', async () => {
   const storage = memory(); storage.setItem(submissionJournalKey, '{broken');
-  const app = setup(() => saved, { storage }); await app.controller.submit(); assert.equal(app.calls(), 0);
+  const app = setup(() => saved, { storage }); await app.controller.submit(); assert.equal(app.calls(), 1);
 });
 
 test('confirmed success clears the draft and requires explicit new-wish action', async () => {

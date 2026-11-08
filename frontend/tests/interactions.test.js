@@ -12,8 +12,8 @@ test('unknown, invalid and future relationship dates remain explicit placeholder
 });
 
 test('relationship day count follows Hong Kong calendar boundaries', () => {
-  assert.equal(relationshipLabel('2026-10-31', new Date('2026-10-31T15:59:59Z')), '在一起第 1 天');
-  assert.equal(relationshipLabel('2026-10-31', new Date('2026-10-31T16:00:00Z')), '在一起第 2 天');
+  assert.equal(relationshipLabel('2026-10-31', new Date('2026-10-31T15:59:59Z')), '在一起第 0 天');
+  assert.equal(relationshipLabel('2026-10-31', new Date('2026-10-31T16:00:00Z')), '在一起第 1 天');
 });
 
 test('blowing requires sustained broadband energy and resets after a quiet gap', () => {

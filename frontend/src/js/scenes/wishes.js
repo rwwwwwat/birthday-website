@@ -22,10 +22,10 @@ export function renderWishes(root, { store, scope }) {
     if (!scope.alive) return;
     const state = wishSubmission.current();
     const cooldown = Math.max(0, Math.ceil(((state.retryAt || 0) - Date.now()) / 1000));
-    const locked = ['submitting', 'unknown', 'success'].includes(state.status) || state.requiresConfirmation;
+    const locked = state.status === 'submitting';
     const view = feedbackView(state.status, false, { ...state, configured: site.wishesEnabled });
     if (input.value !== store.get().wishDraft) input.value = store.get().wishDraft;
-    input.readOnly = !!locked || clicked;
+    input.readOnly = !!locked;
     submit.disabled = !!locked || clicked || cooldown > 0 || !site.wishesEnabled;
     submit.textContent = state.status === 'submitting' ? '正在投递，请稍候…' : '发送给爱你的人 ♡';
     root.querySelector('form').setAttribute('aria-busy', String(state.status === 'submitting'));
@@ -37,8 +37,8 @@ export function renderWishes(root, { store, scope }) {
     count.textContent = input.value.length + ' / 2000';
     root.querySelector('#draft-status').textContent = state.status === 'success'
       ? '已确认保存，草稿已清空'
-      : state.requiresConfirmation ? '待核实的内容已保留' : '草稿留在当前浏览器会话中';
-    retry.hidden = !(state.status === 'error' && state.canRetry && !state.requiresConfirmation && site.wishesEnabled);
+      : '草稿留在当前浏览器会话中';
+    retry.hidden = !(state.status === 'error' && state.canRetry && site.wishesEnabled);
     retry.disabled = clicked || cooldown > 0;
     root.querySelector('#wish-new').hidden = state.status !== 'success';
     const receipt = root.querySelector('.wish-receipt');
@@ -49,9 +49,14 @@ export function renderWishes(root, { store, scope }) {
       receipt.querySelector('time').textContent = '服务器保存时间（UTC）：' + state.receipt.createdAt;
       receipt.querySelector('span').textContent = '来源：' + state.receipt.source;
     }
-    root.querySelector('#submission-note').textContent = state.requiresConfirmation
-      ? '本页已暂停再次投递。请由站点所有者独立核实未保存后，再解除投递锁；刷新不会重发。'
-      : !site.wishesEnabled ? '投递地址尚未配置，本页不会发送。' : '只投递一次。超时或断线时请先核实，不要立即重复发送。';
+    root.querySelector('#submission-note').textContent = state.status === 'submitting'
+      ? '正在投递，请稍候。'
+      : state.status === 'success'
+        ? '已经保存，可以继续写下一个愿望 ♡'
+        : state.status === 'unknown'
+          ? '上次结果无法确认，可能没有保存。可以继续许愿；如果担心重复，可以先核实。'
+          : !site.wishesEnabled ? '投递地址尚未配置，本页不会发送。'
+            : '可以连续许愿；失败会显示原因，不会锁定。';
     if (cooldown && !tick) tick = scope.timeout(() => { tick = undefined; renderFeedback(); }, 1000);
   }
   function remember() {

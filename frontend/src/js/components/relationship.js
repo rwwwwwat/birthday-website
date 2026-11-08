@@ -9,5 +9,5 @@ export function relationshipLabel(start, now = new Date()) {
   const parts = Object.fromEntries(new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Hong_Kong', year: 'numeric', month: '2-digit', day: '2-digit' }).formatToParts(now).map(({ type, value }) => [type, value]));
   const today = Date.UTC(Number(parts.year), Number(parts.month) - 1, Number(parts.day));
   if (epoch > today) return '恋爱开始日期待确认';
-  return '在一起第 ' + (Math.floor((today - epoch) / 86400000) + 1) + ' 天';
+  return '在一起第 ' + Math.floor((today - epoch) / 86400000) + ' 天';
 }

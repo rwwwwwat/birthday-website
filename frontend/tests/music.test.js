@@ -77,9 +77,9 @@ test('queued old media events cannot make a paused player look active or a playi
   audio.dispatchEvent(new Event('pause'));assert.equal(engine.current().status,'playing');
   engine.pause();audio.dispatchEvent(new Event('playing'));assert.equal(engine.current().status,'paused');
 });
-test('anniversary uses inclusive days including exact birthday example',()=>{
-  assert.equal(relationshipLabel('2026-06-27',new Date('2026-06-27T04:00:00Z')),'在一起第 1 天');
-  assert.equal(relationshipLabel('2026-06-27',new Date('2026-11-10T04:00:00Z')),'在一起第 137 天');
+test('anniversary uses exclusive days from the start date',()=>{
+  assert.equal(relationshipLabel('2026-06-27',new Date('2026-06-27T04:00:00Z')),'在一起第 0 天');
+  assert.equal(relationshipLabel('2026-06-27',new Date('2026-11-10T04:00:00Z')),'在一起第 136 天');
 });
 test('approved copy is final, with opening/ending paragraphs and birthday wishes intact',()=>{
   assert.equal(letterCopy.isPlaceholder,false);assert.ok(letterCopy.text.startsWith('很高兴，能够陪你一起走进二十岁。'));
