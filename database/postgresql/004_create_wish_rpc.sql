@@ -1,6 +1,7 @@
 -- Self-contained Supabase bootstrap for the GitHub Pages wish mailbox.
 -- Run once in the Supabase SQL Editor. It creates the private schema/table and the public RPC.
 -- Safe to re-run: every object uses IF NOT EXISTS / CREATE OR REPLACE.
+-- ASCII only on purpose: the Windows clipboard/SQL editor was corrupting Chinese text.
 BEGIN;
 
 CREATE SCHEMA IF NOT EXISTS birthday_private;
@@ -13,7 +14,7 @@ CREATE TABLE IF NOT EXISTS birthday_private.wishes
     created_at timestamptz(6) NOT NULL DEFAULT clock_timestamp(),
     created_at_100ns_remainder smallint NOT NULL DEFAULT 0,
     is_read boolean NOT NULL DEFAULT false,
-    source text NOT NULL DEFAULT '王若溪大王生日网站',
+    source text NOT NULL DEFAULT 'birthday-website',
     CONSTRAINT ck_wishes_content_length CHECK (char_length(content) <= 2000),
     CONSTRAINT ck_wishes_source_length CHECK (char_length(source) <= 100),
     CONSTRAINT ck_wishes_content_not_blank CHECK (content ~ '[^[:space:]]'),
