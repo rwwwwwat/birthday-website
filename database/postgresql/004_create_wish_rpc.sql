@@ -16,8 +16,8 @@ CREATE TABLE IF NOT EXISTS birthday_private.wishes
     source text NOT NULL DEFAULT '王若溪大王生日网站',
     CONSTRAINT ck_wishes_content_length CHECK (char_length(content) <= 2000),
     CONSTRAINT ck_wishes_source_length CHECK (char_length(source) <= 100),
-    CONSTRAINT ck_wishes_content_not_blank CHECK (length(btrim(translate(content, chr(9) || chr(10) || chr(13) || ' ', ''))) > 0),
-    CONSTRAINT ck_wishes_source_not_blank CHECK (length(btrim(translate(source, chr(9) || chr(10) || chr(13) || ' ', ''))) > 0),
+    CONSTRAINT ck_wishes_content_not_blank CHECK (content ~ '[^[:space:]]'),
+    CONSTRAINT ck_wishes_source_not_blank CHECK (source ~ '[^[:space:]]'),
     CONSTRAINT ck_wishes_100ns_remainder CHECK (created_at_100ns_remainder BETWEEN 0 AND 9)
 );
 
@@ -37,8 +37,7 @@ AS $function$
 DECLARE
     saved birthday_private.wishes%ROWTYPE;
 BEGIN
-    IF p_content IS NULL
-       OR length(btrim(translate(p_content, chr(9) || chr(10) || chr(13) || ' ', ''))) = 0 THEN
+    IF p_content IS NULL OR p_content !~ '[^[:space:]]' THEN
         RAISE EXCEPTION 'content is required' USING ERRCODE = '22023';
     END IF;
     IF char_length(p_content) > 2000 THEN
