@@ -195,22 +195,24 @@ dotnet bin/Debug/net10.0/BirthdayWebsite.Api.dll --configure-admin
 原始素材未删除或覆盖；是否提交需求文档和原始素材，应在首次提交前复核。
 
 第九阶段原始内容见 `docs/phase-9.md`；私有媒体见 `docs/phase-10-1.md`，网站身份验证见 `docs/phase-10-2.md`。
-当前部署架构为 GitHub Pages（前端）+ Render（ASP.NET Core API）+ Supabase（PostgreSQL）；Cloudflare Access 同源方案保留为可选路径，不再作为本次上线方式。
+当前部署架构为 GitHub Pages（前端）+ Supabase（PostgreSQL + create_wish RPC）；Render 的 Docker/`render.yaml` 保留为可选备用，不是当前上线路径。
 需由所有者提供TeamDomain、Access应用AUD及两个邮箱，通过服务器环境变量或被忽略的
 `appsettings.Access.Local.json`配置；`appsettings.Access.example.json`只有空占位，不含真实身份。
 Production还需设置`PrivateSite:FrontendRootPath`指向构建后的前端目录。
 后续顺序：人工审查、配置真实Access及源站网络/HTTPS保护 → 私有云存储与数据库迁移 →
 经授权进行真实身份登录、手机兼容与完整上线验收。云资源创建、部署和真实写入均需后续授权。
 
-## 当前部署（GitHub Pages + Render + Supabase）
+## 当前部署（GitHub Pages + Supabase）
 
-1. Supabase：运行 `database/postgresql/001_create_private_wishes.sql`，取得 Session pooler 连接串。
-2. Render：使用仓库根目录 `render.yaml` 创建 Blueprint，填入 Supabase 连接串、`Admin__Username`、`Admin__PasswordHash`。
-3. GitHub Pages：仓库变量 `API_BASE_URL` 设为 Render 地址；`.github/workflows/pages.yml` 构建并发布 `frontend/dist`。
-4. 音乐：根目录 `media/` 在 `VITE_MEDIA_MODE=static` 时复制到 `dist/media/`，由 Pages 直接提供。
-5. 保活：`.github/workflows/keepalive.yml` 每 10 分钟请求 `/api/health`，避免 Render 休眠和 Supabase 暂停。
+1. Supabase：依次运行 `database/postgresql/001_create_private_wishes.sql` 和 `004_create_wish_rpc.sql`。
+2. GitHub 仓库变量：`SUPABASE_URL`（项目 URL）和 `SUPABASE_ANON_KEY`（publishable/anon key，可公开）。
+3. GitHub Pages：`.github/workflows/pages.yml` 用上述变量构建并发布 `frontend/dist`。
+4. 愿望：前端直接 POST 到 `rest/v1/rpc/create_wish`；表仍在 `birthday_private`，只有该函数暴露给 `anon`。
+5. 管理：直接在 Supabase Table Editor 查看 `birthday_private.wishes`。
+6. 音乐：根目录 `media/` 在 `VITE_MEDIA_MODE=static` 时复制到 `dist/media/`，由 Pages 直接提供。
+7. `render.yaml` 与 `Dockerfile` 保留为可选备用，不是当前上线路径。
 
-生产密钥只放在 Render 环境变量；`appsettings.*.Local.json`、`.env.local` 和 `.acl-recovery/` 均被 Git 忽略。
+`appsettings.*.Local.json`、`.env.local` 和 `.acl-recovery/` 均被 Git 忽略。
 
 ## 技术参考
 

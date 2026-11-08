@@ -82,3 +82,73 @@ export function createWishesApi({ baseUrl, fetchImpl = globalThis.fetch, timeout
     },
   };
 }
+
+export function supabaseWishesEndpoint(baseUrl) {
+  if (!baseUrl?.trim()) throw new Error('Supabase URL missing');
+  const base = new URL(baseUrl.trim());
+  if (base.protocol !== 'https:' || base.username || base.password || base.search || base.hash) throw new Error('Invalid Supabase URL');
+  base.pathname = base.pathname.replace(/\/+$/, '') + '/';
+  return new URL('rest/v1/rpc/create_wish', base).href;
+}
+
+// GitHub Pages has no server of its own. This talks to the Supabase RPC
+// public.create_wish; the wishes table itself stays in birthday_private.
+export function createSupabaseWishesApi({ baseUrl, anonKey, fetchImpl = globalThis.fetch, timeoutMs = 15000 }) {
+  let endpoint;
+  try { endpoint = supabaseWishesEndpoint(baseUrl); } catch { /* No request if configuration is missing. */ }
+  const configured = Boolean(endpoint && anonKey?.trim());
+  return {
+    configured,
+    async submit(content) {
+      if (!configured) return { status: 'error', reason: 'configuration', canRetry: true, requiresConfirmation: false,
+        message: '投递地址尚未配置。本次没有发送，心愿已保留。' };
+      const controller = new AbortController();
+      let timer;
+      const operation = async () => {
+        const response = await fetchImpl(endpoint, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            apikey: anonKey,
+            Authorization: 'Bearer ' + anonKey,
+          },
+          body: JSON.stringify({ p_content: content }),
+          signal: controller.signal,
+          credentials: 'omit', mode: 'cors', redirect: 'error', cache: 'no-store',
+        });
+        if (response.status === 200) {
+          let receipt;
+          try { receipt = await response.json(); } catch { return unknownResult('invalid-receipt'); }
+          if (!validReceipt(receipt)) return unknownResult('invalid-receipt');
+          return { status: 'success', httpStatus: 200, receipt: {
+            wishId: receipt.wishId, createdAt: receipt.createdAt, isRead: receipt.isRead, source: receipt.source,
+          }, canRetry: false, requiresConfirmation: false };
+        }
+        await response.json().catch(() => null);
+        if (response.status === 429) return { status: 'error', reason: 'rate-limit', httpStatus: 429,
+          canRetry: true, requiresConfirmation: false, retryAt: retryTime(response.headers.get('Retry-After'), Date.now()),
+          message: '请求太频繁，请稍等后手动重试。草稿已保留。' };
+        if (response.status === 401 || response.status === 403) return { status: 'error', reason: 'rejected', httpStatus: response.status,
+          canRetry: false, requiresConfirmation: false,
+          message: '信箱密钥无效或没有写入权限，请联系站点所有者。草稿已保留。' };
+        if (response.status === 400) return { status: 'error', reason: 'rejected', httpStatus: 400,
+          canRetry: true, requiresConfirmation: false,
+          message: '内容验证未通过，请检查内容后手动重试。草稿已保留。' };
+        if (response.status === 404) return { status: 'error', reason: 'rejected', httpStatus: 404,
+          canRetry: false, requiresConfirmation: false,
+          message: '投递地址不存在，请确认 Supabase 的 create_wish 函数已经创建。' };
+        return { ...unknownResult('unconfirmed-http'), httpStatus: response.status };
+      };
+      try {
+        return await Promise.race([
+          operation(),
+          new Promise((resolve) => {
+            timer = setTimeout(() => { controller.abort(); resolve(unknownResult('timeout')); }, timeoutMs);
+          }),
+        ]);
+      } catch { return unknownResult(controller.signal.aborted ? 'timeout' : 'network'); }
+      finally { clearTimeout(timer); }
+    },
+  };
+}

@@ -13,5 +13,12 @@ export const site = Object.freeze({
   letterIsPlaceholder: letterCopy.isPlaceholder,
   music: musicConfig,
   apiBaseUrl: import.meta.env.VITE_API_BASE_URL?.trim() || '',
-  wishesEnabled: Boolean(import.meta.env.VITE_API_BASE_URL?.trim()),
+  supabaseUrl: import.meta.env.VITE_SUPABASE_URL?.trim() || '',
+  supabaseAnonKey: import.meta.env.VITE_SUPABASE_ANON_KEY?.trim() || '',
+  wishesProvider: import.meta.env.VITE_SUPABASE_URL?.trim() && import.meta.env.VITE_SUPABASE_ANON_KEY?.trim()
+    ? 'supabase' : 'api',
+  wishesEnabled: Boolean(
+    (import.meta.env.VITE_SUPABASE_URL?.trim() && import.meta.env.VITE_SUPABASE_ANON_KEY?.trim())
+    || import.meta.env.VITE_API_BASE_URL?.trim(),
+  ),
 });
