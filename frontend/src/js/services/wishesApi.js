@@ -137,6 +137,9 @@ export function createSupabaseWishesApi({ baseUrl, anonKey, fetchImpl = globalTh
         if (response.status === 404) return { status: 'error', reason: 'rejected', httpStatus: 404,
           canRetry: false, requiresConfirmation: false,
           message: '投递地址不存在，请确认 Supabase 的 create_wish 函数已经创建。' };
+        if (response.status === 503) return { status: 'error', reason: 'unavailable', httpStatus: 503,
+          canRetry: true, requiresConfirmation: false,
+          message: '信箱服务暂时不可用（Supabase 正在恢复），请等一会儿后手动重试。草稿已保留。' };
         return { ...unknownResult('unconfirmed-http'), httpStatus: response.status };
       };
       try {
