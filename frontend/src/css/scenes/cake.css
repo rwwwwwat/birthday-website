@@ -1,0 +1,230 @@
+.cake-scene {
+  max-width:850px
+}
+.birthday-date{color:#aa8692;font-size:10px;letter-spacing:1px;margin:8px 0 0}
+.cake-stage {
+  position:relative;
+  width:min(100%,470px);
+  margin:0 auto;
+  isolation:isolate
+}
+.birthday-cake {
+  width:100%;
+  height:auto;
+  display:block;
+  overflow:visible;
+  position:relative;
+  z-index:1
+}
+.cake-halo {
+  position:absolute;
+  width:100%;
+  height:85%;
+  top:4%;
+  left:0;
+  background:radial-gradient(ellipse,#fff4d0bb,#f2d9dc66 50%,transparent 70%);
+  border-radius:50%;
+  z-index:0;
+  transition:background .5s,opacity .5s
+}
+.cake-stage::before {
+  content:'';
+  position:absolute;
+  inset:-5% -10%;
+  border-radius:50%;
+  background:radial-gradient(ellipse,#563a6255,transparent 67%);
+  opacity:0;
+  transition:opacity .7s
+}
+.cake-stage.is-celebrating::before {
+  opacity:1
+}
+.flame {
+  animation:flame-dance 1.6s ease-in-out infinite;
+  transform-box:view-box;
+  transition:opacity .5s,transform .5s
+}
+.flame:last-child {
+  animation-delay:-.7s
+}
+.is-extinguished .flame {
+  opacity:0;
+  animation:none;
+  transform:scale(.05)
+}
+.candle-smoke {
+  opacity:0;
+  pointer-events:none
+}
+.is-extinguished .candle-smoke {
+  animation:smoke-rise 1.7s ease-out both
+}
+.cake-spark {
+  position:absolute;
+  color:#c9a26f;
+  font:30px Georgia;
+  animation:spark-float 4s ease-in-out infinite;
+  z-index:2
+}
+.spark-a {
+  left:5%;
+  top:29%
+}
+.spark-b {
+  right:9%;
+  top:18%;
+  font-size:18px;
+  animation-delay:-1.5s
+}
+.spark-c {
+  right:0;
+  top:56%;
+  font-size:24px;
+  animation-delay:-2.5s
+}
+.fireworks {
+  position:absolute;
+  width:150%;
+  height:110%;
+  top:-6%;
+  left:-25%;
+  z-index:3;
+  pointer-events:none
+}
+.cake-message {
+  min-height:60px
+}
+.cake-message>#cake-message {
+  font-size:12px;
+  line-height:2;
+  color:#967680;
+  margin:0 0 16px
+}
+.birthday-blessing {
+  max-width:430px;
+  margin:auto;
+  animation:scene-arrive .7s ease-out
+}
+.birthday-blessing>span {
+  font:27px var(--serif);
+  color:var(--rose);
+  letter-spacing:3px
+}
+.birthday-blessing>p {
+  white-space:pre-line;
+  text-align:left;
+  font-size:12px;
+  line-height:2;
+  color:#97747c;
+  margin:15px 0 22px
+}
+.cake-actions {
+  max-width:490px;
+  margin:auto
+}
+.blow-controls {
+  display:flex;
+  gap:10px;
+  justify-content:center;
+  margin-top:12px
+}
+.blow-controls .button {
+  font-size:11px
+}
+.mic-status {
+  max-width:380px;
+  margin:17px auto 0
+}
+.mic-status p {
+  font-size:10px;
+  line-height:1.8;
+  color:#a0868b;
+  margin:8px 0
+}
+.sound-meter {
+  height:3px;
+  background:#dac6cb55;
+  border-radius:10px;
+  overflow:hidden;
+  width:100px;
+  margin:auto
+}
+.sound-meter i {
+  display:block;
+  height:100%;
+  background:#b57a90;
+  transform:scaleX(0);
+  transform-origin:left;
+  transition:transform .1s
+}
+.cake-actions>.text-button {
+  font-size:10px
+}
+.cake-scene>.scene-actions {
+  margin-top:18px
+}
+.cake-scene .next-button {
+  min-width:230px
+}
+@keyframes flame-dance {
+  0%,100% {
+    transform:rotate(-4deg) scaleY(1)
+  }
+  50% {
+    transform:rotate(5deg) scaleY(.87)
+  }
+}
+@keyframes smoke-rise {
+  0% {
+    opacity:0;
+    transform:translateY(0)
+  }
+  25% {
+    opacity:.5
+  }
+  100% {
+    opacity:0;
+    transform:translateY(-35px) scaleX(1.2)
+  }
+}
+@keyframes spark-float {
+  50% {
+    opacity:.35;
+    transform:translateY(-7px)
+  }
+}
+@media(max-width:600px) {
+  .cake-stage {
+    max-width:355px;
+    margin:12px auto 0
+  }
+  .cake-scene .scene-heading h1 {
+    font-size:31px
+  }
+  .cake-message>#cake-message {
+    font-size:11px
+  }
+  .blow-controls {
+    gap:8px
+  }
+  .blow-controls .button {
+    font-size:10px;
+    padding:11px 12px
+  }
+  .cake-message {
+    min-height:45px
+  }
+  .birthday-blessing>span {
+    font-size:24px
+  }
+  .birthday-blessing>p {
+    font-size:11px;
+    max-width:290px;
+    margin-left:auto;
+    margin-right:auto
+  }
+  .fireworks {
+    width:110%;
+    left:-5%
+  }
+}

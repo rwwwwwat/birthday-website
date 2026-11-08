@@ -1,0 +1,34 @@
+services:
+  - type: web
+    name: birthday-api
+    runtime: docker
+    plan: free
+    region: singapore
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /healthz
+    autoDeploy: true
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+      - key: DatabaseProvider
+        value: PostgreSql
+      - key: Database__Enabled
+        value: "true"
+      - key: Database__ConnectTimeoutSeconds
+        value: "10"
+      - key: Database__CommandTimeoutSeconds
+        value: "10"
+      - key: Database__OperationTimeoutSeconds
+        value: "20"
+      - key: PrivateSite__Mode
+        value: Public
+      - key: AllowedHosts
+        value: "*"
+      - key: Cors__AllowedOrigins__0
+        value: https://rwwwwwat.github.io
+      - key: ConnectionStrings__PostgreSqlBirthdayDatabase
+        sync: false
+      - key: Admin__Username
+        sync: false
+      - key: Admin__PasswordHash
+        sync: false

@@ -1,0 +1,90 @@
+[
+  {
+    "TrackId": "cry-for-me",
+    "Kind": "audio",
+    "OriginalPath": "F:\\ourweb\\audio\\Cry For Me.Feat. 愛海.-Michita#2CbowT.mp3",
+    "BlobName": "audio/cry-for-me.mp3",
+    "ContentType": "audio/mpeg",
+    "SizeBytes": 12122113,
+    "SHA256": "410442647A6B59891AA078A41FE1951D2EA0B1FBCB6467A07A616B8F973F5F1F",
+    "UploadStatus": "NOT_UPLOADED",
+    "RemoteSHA256": null
+  },
+  {
+    "TrackId": "cry-for-me",
+    "Kind": "covers",
+    "OriginalPath": "F:\\ourweb\\audio\\Michita feat. AMIのPurenessからの楽曲Cry For Me (feat. 愛海)をAmazon Musicで.jpg",
+    "BlobName": "covers/cry-for-me.jpg",
+    "ContentType": "image/jpeg",
+    "SizeBytes": 539139,
+    "SHA256": "19277069846D8ED0EF3E6CBABDCD6FCA140D3655F963D5B5289FABB4B462CEB7",
+    "UploadStatus": "NOT_UPLOADED",
+    "RemoteSHA256": null
+  },
+  {
+    "TrackId": "aitaiwa",
+    "Kind": "audio",
+    "OriginalPath": "F:\\ourweb\\audio\\会いたいわ-iri#jkFrL.mp3",
+    "BlobName": "audio/aitaiwa.mp3",
+    "ContentType": "audio/mpeg",
+    "SizeBytes": 10735408,
+    "SHA256": "A5BF6C98C578820A16C3EEE3E296E1C98694BE6D5C41A2C88AB385A35BF13C38",
+    "UploadStatus": "NOT_UPLOADED",
+    "RemoteSHA256": null
+  },
+  {
+    "TrackId": "aitaiwa",
+    "Kind": "covers",
+    "OriginalPath": "F:\\ourweb\\audio\\＜コラム＞iriが『Mステ』初出演、バイラルヒット「会いたいわ」がもたらした“揺るぎない自信” _ Special _ Billboard JAPAN.jpg",
+    "BlobName": "covers/aitaiwa.jpg",
+    "ContentType": "image/jpeg",
+    "SizeBytes": 172760,
+    "SHA256": "64ABEA7CFFBEB90307D0D802052C5263B83A596C2117728FC755CF11F739F94E",
+    "UploadStatus": "NOT_UPLOADED",
+    "RemoteSHA256": null
+  },
+  {
+    "TrackId": "danger",
+    "Kind": "audio",
+    "OriginalPath": "F:\\ourweb\\audio\\迷人的危险-Dance+Flow#bgzW.mp3",
+    "BlobName": "audio/danger.mp3",
+    "ContentType": "audio/mpeg",
+    "SizeBytes": 8243327,
+    "SHA256": "53CC66712A0566DE695CA21D1ABDCCC0F1B9E006FE558ED278796AE073808660",
+    "UploadStatus": "NOT_UPLOADED",
+    "RemoteSHA256": null
+  },
+  {
+    "TrackId": "danger",
+    "Kind": "covers",
+    "OriginalPath": "F:\\ourweb\\audio\\迷人的危險 - dance flow_ Song Lyrics, Music Videos & Concerts.jpg",
+    "BlobName": "covers/danger.jpg",
+    "ContentType": "image/jpeg",
+    "SizeBytes": 73478,
+    "SHA256": "2493AF6B95C94E175A46E06FD0600BBCB5A9A8290B2E02495E1BD9DB844B8BE3",
+    "UploadStatus": "NOT_UPLOADED",
+    "RemoteSHA256": null
+  },
+  {
+    "TrackId": "kataomoi",
+    "Kind": "audio",
+    "OriginalPath": "F:\\ourweb\\audio\\カタオモイ-Aimer#gfokU.mp3",
+    "BlobName": "audio/kataomoi.mp3",
+    "ContentType": "audio/mpeg",
+    "SizeBytes": 8297742,
+    "SHA256": "5F205691B6095971013094D3DB3A77381E103EC80E1B8BE9B185711B4930055C",
+    "UploadStatus": "NOT_UPLOADED",
+    "RemoteSHA256": null
+  },
+  {
+    "TrackId": "kataomoi",
+    "Kind": "covers",
+    "OriginalPath": "F:\\ourweb\\audio\\”カタオモイ” by Aimer - トラック・歌詞情報 _ AWA.jpg",
+    "BlobName": "covers/kataomoi.jpg",
+    "ContentType": "image/jpeg",
+    "SizeBytes": 77495,
+    "SHA256": "54EA2A6614A5656271A271DCC1E329873F26FB7AE66B11A93C5210F683FCF4C9",
+    "UploadStatus": "NOT_UPLOADED",
+    "RemoteSHA256": null
+  }
+]

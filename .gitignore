@@ -1,0 +1,46 @@
+# Local caches, logs and dependencies
+.local/
+.acl-recovery/
+**/node_modules/
+**/dist/
+frontend/media/
+**/bin/
+**/obj/
+.vs/
+.vscode/
+*.user
+*.suo
+*.log
+**/TestResults/
+
+# Secrets / machine-specific settings (examples remain trackable)
+.env
+.env.*
+!.env.example
+**/appsettings.Local.json
+**/appsettings.*.Local.json
+**/secrets.json
+**/private-resources/
+*.pfx
+*.p12
+*.key
+*.pem
+
+# Private media: metadata/catalog code is trackable; actual songs and covers are not.
+/audio/
+/frontend/public/audio/
+**/private-media/
+
+# SQL data, backups and exports
+*.bak
+*.trn
+*.mdf
+*.ndf
+*.ldf
+*.bacpac
+*.dacpac
+database/backups/
+
+# OS metadata
+Thumbs.db
+.DS_Store

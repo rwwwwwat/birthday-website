@@ -1,0 +1,21 @@
+@api = http://localhost:5270
+
+### API and database health (read-only SELECT 1)
+GET {{api}}/api/health
+Accept: application/json
+
+### Development OpenAPI document
+GET {{api}}/openapi/v1.json
+
+### MANUAL WRITE: only execute after explicit approval; creates one real SQL row.
+### Expected 201 only after the database transaction commits.
+POST {{api}}/api/wishes
+Content-Type: application/json
+
+{"content":"一起去看海"}
+
+### Expected 401; administrator authentication is not implemented
+GET {{api}}/api/admin/wishes
+
+### Expected 503; no credentials are issued
+POST {{api}}/api/auth/admin/login

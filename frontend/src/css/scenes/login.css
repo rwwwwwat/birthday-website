@@ -1,0 +1,523 @@
+.login-scene {
+  display:grid;
+  grid-template-columns:1fr 420px;
+  align-items:center;
+  gap:70px;
+  min-height:calc(100svh - 190px);
+  text-align:left;
+  max-width:1060px;
+  padding:40px 20px
+}
+.invitation-copy,.invitation-panel {
+  position:relative;
+  z-index:1
+}
+.invitation-copy .eyebrow {
+  font-size:8px;
+  letter-spacing:2.5px;
+  white-space:nowrap
+}
+.edition-mark {
+  position:relative;
+  height:125px;
+  margin-top:28px;
+  color:#c7a58e
+}
+.edition-mark>span {
+  font:130px/.9 Georgia;
+  letter-spacing:-9px;
+  font-weight:400
+}
+.edition-mark>i {
+  font:italic 29px Georgia;
+  position:absolute;
+  top:10px;
+  left:134px
+}
+.edition-mark>small {
+  font:7px Georgia;
+  letter-spacing:2px;
+  display:block;
+  margin-top:6px
+}
+.login-scene h1 {
+  font-size:52px;
+  line-height:1.5;
+  margin:31px 0 19px;
+  letter-spacing:3px
+}
+.title-rose {
+  color:var(--rose)
+}
+.invitation-copy .intro {
+  font-size:13px;
+  line-height:2.2
+}
+.handwritten {
+  font:italic 22px/1.5 Georgia;
+  color:#b58a8a;
+  margin-top:30px
+}
+.invitation-rule {
+  display:flex;
+  gap:13px;
+  align-items:center;
+  margin-top:26px;
+  color:#af8a8e
+}
+.invitation-rule>span {
+  font:26px Georgia
+}
+.invitation-rule p {
+  font-size:10px;
+  letter-spacing:1px;
+  margin:0;
+  border-top:1px solid #c9aa9c88;
+  padding-top:10px
+}
+.login-card {
+  position:relative;
+  border-radius:110px 110px 16px 16px;
+  padding:30px 37px 25px;
+  text-align:left;
+  border:1px solid #dfc9b4;
+  background:linear-gradient(150deg,#fffdf7f2,#fff8f4d9);
+  box-shadow:0 25px 75px #98677912,0 0 0 7px #fffbf4a0
+}
+.crown {
+  color:#b29a70;
+  width:49px;
+  margin:0 auto 12px
+}
+.crown svg {
+  display:block;
+  width:100%
+}
+.avatar-frame {
+  position:relative;
+  width:103px;
+  margin:auto
+}
+.avatar {
+  width:103px;
+  height:103px;
+  object-fit:cover;
+  border-radius:50%;
+  display:block;
+  border:5px solid #fffaf4;
+  outline:1px solid #cbb09b;
+  box-shadow:0 0 27px #d6a1ad20;
+  animation:avatar-breathe 4s ease-in-out infinite
+}
+.avatar-spark {
+  position:absolute;
+  right:-15px;
+  top:1px;
+  color:#bba070;
+  font:27px Georgia
+}
+.small-caps {
+  font:7px Georgia;
+  letter-spacing:2px;
+  color:#ac8b8f;
+  text-align:center;
+  margin-top:22px
+}
+.login-card h2 {
+  font:24px var(--serif);
+  color:#845367;
+  text-align:center;
+  font-weight:400;
+  letter-spacing:3px;
+  margin:10px 0
+}
+.card-subtitle {
+  text-align:center;
+  font-size:10px;
+  color:#a18a8e;
+  margin:9px 0 22px
+}
+.login-card label {
+  font-size:11px;
+  display:flex;
+  justify-content:space-between;
+  margin-top:16px
+}
+.login-card label span {
+  font:7px Georgia;
+  letter-spacing:1.4px;
+  color:#bca4a4
+}
+.login-card input {
+  font-size:14px;
+  height:45px
+}
+.password-row {
+  display:flex;
+  align-items:center;
+  border:1px solid #dfd0ca;
+  background:#fffdf8a6;
+  border-radius:5px
+}
+.password-row:focus-within {
+  border-color:#bb8c9b;
+  box-shadow:0 0 0 3px #c78c9e12
+}
+.password-row input {
+  border:0;
+  background:none;
+  box-shadow:none!important
+}
+.password-row button {
+  font-size:10px;
+  white-space:nowrap;
+  padding:6px 12px;
+  text-decoration:none
+}
+.login-card .form-message {
+  margin:8px 0 12px;
+  min-height:19px;
+  font-size:10px
+}
+.login-card .button {
+  font-size:11px;
+  letter-spacing:1.5px;
+  border-radius:4px;
+  min-height:46px
+}
+.card-signature {
+  display:flex;
+  gap:10px;
+  justify-content:center;
+  align-items:center;
+  font:7px Georgia;
+  letter-spacing:1.4px;
+  color:#b09a94;
+  margin-top:22px
+}
+.card-signature span {
+  height:1px;
+  background:#d8c4b688;
+  width:22px
+}
+.below-card {
+  text-align:center;
+  font-size:9px;
+  letter-spacing:2px;
+  color:#ae9396;
+  margin-top:23px
+}
+.card-corner {
+  position:absolute;
+  width:26px;
+  height:26px;
+  border-color:#cbb09266;
+  pointer-events:none
+}
+.corner-tl {
+  left:13px;
+  bottom:13px;
+  border-left:1px solid;
+  border-bottom:1px solid
+}
+.corner-br {
+  right:13px;
+  bottom:13px;
+  border-right:1px solid;
+  border-bottom:1px solid
+}
+.ornaments {
+  position:absolute;
+  inset:-20px -35px;
+  overflow:hidden;
+  pointer-events:none
+}
+.heart-balloon {
+  position:absolute;
+  width:42px;
+  color:#d6a7b54d;
+  filter:drop-shadow(3px 7px 5px #ab7a8b0d);
+  animation:balloon-float calc(5s + var(--i)*.6s) ease-in-out infinite;
+  animation-delay:calc(var(--i)*-.7s)
+}
+.heart-balloon svg {
+  width:100%;
+  height:auto
+}
+.heart-balloon i {
+  display:block;
+  position:absolute;
+  left:50%;
+  top:37px;
+  width:18px;
+  height:100px;
+  border-left:1px solid #bf9c9444;
+  border-radius:50%;
+  transform:rotate(-8deg)
+}
+.balloon-0 {
+  left:0;
+  top:22%;
+  width:36px
+}
+.balloon-1 {
+  left:43%;
+  top:7%;
+  width:22px
+}
+.balloon-2 {
+  right:0;
+  top:29%;
+  width:40px
+}
+.balloon-3 {
+  left:40%;
+  bottom:15%;
+  width:23px
+}
+.balloon-4 {
+  left:7%;
+  bottom:10%;
+  width:17px
+}
+.balloon-5 {
+  right:4%;
+  bottom:8%;
+  width:20px
+}
+.orbit {
+  position:absolute;
+  border:1px solid #b9a07122;
+  border-radius:50%;
+  transform:rotate(-30deg)
+}
+.orbit-one {
+  width:490px;
+  height:600px;
+  right:-30px;
+  top:3%
+}
+.orbit-two {
+  width:480px;
+  height:590px;
+  right:-9px;
+  top:4%
+}
+.little-star {
+  position:absolute;
+  color:#bea47799;
+  font:28px Georgia
+}
+.star-one {
+  left:40%;
+  top:35%
+}
+.star-two {
+  left:1%;
+  top:4%;
+  font-size:15px
+}
+.star-three {
+  right:3%;
+  bottom:33%;
+  font-size:20px
+}
+.unlock-bloom {
+  pointer-events:none;
+  position:absolute;
+  inset:0;
+  display:grid;
+  place-items:center;
+  opacity:0;
+  overflow:hidden;
+  border-radius:inherit
+}
+.unlock-bloom svg {
+  width:100px;
+  color:#e5b6c3aa
+}
+.is-unlocking .unlock-bloom {
+  animation:heart-bloom .9s ease-out both
+}
+.is-unlocking .heart-balloon {
+  animation:balloon-rise 1s ease-in both;
+  animation-delay:calc(var(--i)*.03s)
+}
+.is-unlocking .little-star {
+  animation:star-flash .8s ease-out both
+}
+@keyframes avatar-breathe {
+  50% {
+    box-shadow:0 0 30px #d6a1ad50
+  }
+}
+@keyframes balloon-float {
+  50% {
+    transform:translateY(-13px) rotate(6deg)
+  }
+}
+@keyframes balloon-rise {
+  to {
+    transform:translateY(-500px) rotate(14deg);
+    opacity:0
+  }
+}
+@keyframes heart-bloom {
+  0% {
+    opacity:0;
+    transform:scale(.3)
+  }
+  30% {
+    opacity:.8
+  }
+  100% {
+    opacity:0;
+    transform:scale(4)
+  }
+}
+@keyframes star-flash {
+  40% {
+    transform:scale(2);
+    opacity:1
+  }
+  100% {
+    opacity:0
+  }
+}
+@media(max-width:700px) {
+  .login-card input {
+    font-size:16px
+  }
+}
+@media(max-width:1000px) and (min-width:701px) {
+  .login-scene {
+    gap:36px;
+    grid-template-columns:1fr 350px;
+    padding-left:0;
+    padding-right:0
+  }
+  .login-scene h1 {
+    font-size:40px
+  }
+  .login-card {
+    padding-left:27px;
+    padding-right:27px
+  }
+  .edition-mark>span {
+    font-size:110px
+  }
+}
+@media(max-width:700px) {
+  .login-scene {
+    display:block;
+    min-height:0;
+    padding:27px 0 12px;
+    max-width:370px
+  }
+  .invitation-copy {
+    text-align:center
+  }
+  .invitation-copy .eyebrow {
+    font-size:7px;
+    letter-spacing:1.8px
+  }
+  .edition-mark {
+    position:absolute;
+    right:-5px;
+    top:15px;
+    height:auto;
+    margin:0;
+    opacity:.22;
+    z-index:-1
+  }
+  .edition-mark>span {
+    font-size:110px
+  }
+  .edition-mark>i,.edition-mark>small {
+    display:none
+  }
+  .login-scene h1 {
+    font-size:35px;
+    line-height:1.45;
+    letter-spacing:2px;
+    margin:18px 0 10px
+  }
+  .invitation-copy .intro {
+    font-size:11px;
+    margin:0
+  }
+  .invitation-copy .intro br {
+    display:none
+  }
+  .handwritten,.invitation-rule {
+    display:none
+  }
+  .invitation-panel {
+    margin:27px auto 0;
+    max-width:328px
+  }
+  .login-card {
+    border-radius:85px 85px 12px 12px;
+    padding:22px 27px 23px
+  }
+  .crown {
+    width:37px;
+    margin-bottom:10px
+  }
+  .avatar-frame,.avatar {
+    width:82px;
+    height:82px
+  }
+  .small-caps {
+    font-size:6px;
+    margin-top:17px
+  }
+  .login-card h2 {
+    font-size:22px;
+    margin-top:9px
+  }
+  .card-subtitle {
+    font-size:9px;
+    margin-bottom:20px
+  }
+  .login-card label {
+    margin-top:13px
+  }
+  .login-card input {
+    height:42px
+  }
+  .card-signature {
+    margin-top:18px
+  }
+  .below-card {
+    font-size:8px;
+    margin:18px 0 0
+  }
+  .balloon-0 {
+    top:14%;
+    left:-6px;
+    width:25px
+  }
+  .balloon-2 {
+    right:0;
+    top:16%;
+    width:28px
+  }
+  .balloon-3 {
+    left:0;
+    bottom:8%
+  }
+  .orbit-one,.orbit-two {
+    width:380px;
+    height:570px;
+    right:-20px;
+    top:80px
+  }
+  .star-one {
+    left:2%;
+    top:42%
+  }
+  .login-card .form-message {
+    margin-bottom:9px
+  }
+}
