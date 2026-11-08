@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>愿望接口诊断</title>
+</head>
+<body style="font:16px/1.6 system-ui,sans-serif;padding:24px;max-width:760px;margin:auto">
+  <h1>愿望接口诊断</h1>
+  <p>这个页面只发送一条空白愿望，正常会被拒绝，不会写入数据。</p>
+  <pre id="out" style="white-space:pre-wrap;background:#f5f5f5;padding:16px;border-radius:8px">请求中…</pre>
+  <script>
+    const key = 'sb_publishable_yhFkLy3Wfc6bXjAj28YDWQ_CSGb2ZNJ';
+    const url = 'https://xuanfqixatkhdcnxvrbb.supabase.co/rest/v1/rpc/create_wish';
+    (async () => {
+      const out = document.getElementById('out');
+      try {
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', apikey: key },
+          body: JSON.stringify({ p_content: '   ' }),
+        });
+        out.textContent = 'HTTP ' + res.status + '\n' + (await res.text());
+      } catch (error) {
+        out.textContent = 'FETCH ERROR\n' + error.name + ': ' + error.message;
+      }
+    })();
+  </script>
+</body>
+</html>
