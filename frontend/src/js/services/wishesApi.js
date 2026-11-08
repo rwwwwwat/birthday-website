@@ -111,7 +111,6 @@ export function createSupabaseWishesApi({ baseUrl, anonKey, fetchImpl = globalTh
             'Content-Type': 'application/json',
             Accept: 'application/json',
             apikey: anonKey,
-            Authorization: 'Bearer ' + anonKey,
           },
           body: JSON.stringify({ p_content: content }),
           signal: controller.signal,
@@ -121,7 +120,7 @@ export function createSupabaseWishesApi({ baseUrl, anonKey, fetchImpl = globalTh
           let receipt;
           try { receipt = await response.json(); } catch { return unknownResult('invalid-receipt'); }
           if (!validReceipt(receipt)) return unknownResult('invalid-receipt');
-          return { status: 'success', httpStatus: 200, receipt: {
+          return { status: 'success', httpStatus: 201, receipt: {
             wishId: receipt.wishId, createdAt: receipt.createdAt, isRead: receipt.isRead, source: receipt.source,
           }, canRetry: false, requiresConfirmation: false };
         }
