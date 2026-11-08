@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const publicRoot = resolve(root, 'public');
-export const publicAssets = ['favicon.svg', 'debug.html', ...['firstphoto','other1','other2','other3','other4','pther5','other6','other7','other8','other9','userphoto'].map((name) => 'images/' + name + '.jpg')];
+export const publicAssets = ['favicon.svg', ...['firstphoto','other1','other2','other3','other4','pther5','other6','other7','other8','other9','userphoto'].map((name) => 'images/' + name + '.jpg')];
 const coverNames = new Set([
   'Michita feat. AMIのPurenessからの楽曲Cry For Me (feat. 愛海)をAmazon Musicで.jpg',
   '＜コラム＞iriが『Mステ』初出演、バイラルヒット「会いたいわ」がもたらした“揺るぎない自信” _ Special _ Billboard JAPAN.jpg',
