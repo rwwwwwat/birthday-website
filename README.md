@@ -1,4 +1,4 @@
-# 王若溪大王的生日奇幻之旅
+# 生日奇幻之旅
 
 第十阶段10.5：新增Npgsql/PostgreSQL数据访问实现，通过DatabaseProvider选择，保留原SQL Server及Azure Blob实现。
 本阶段只完成代码、脚本和本地隔离测试，未连接真实SQL Server或Supabase、未迁移数据、未部署或上传素材。
@@ -33,7 +33,7 @@ npm ci
 npm run dev
 ```
 
-打开 `http://localhost:5173`。账号为“宝宝”，仪式口令为 `1002`。
+打开 `http://localhost:5173`。账号为“宝宝”，仪式口令为
 这不是安全认证；当前私有音乐测试授权也仅适用于Development和本机回环连接。
 
 ```powershell
